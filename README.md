@@ -184,8 +184,7 @@ Here are some mock servers you can use for testing your API interactions:
 
 - **[MockServer](https://www.mock-server.com/)**: A powerful tool for mocking and testing APIs.
 - **[Mockoon](https://mockoon.com/)**: A simple and easy-to-use tool for creating mock APIs.
-- **[Postman Mock Server](https://learning.postman.com/docs/designing-and-developing-your-api/mocking-data/overview/)
-  **: A feature of Postman that allows you to create mock servers and simulate API responses.
+- **[Postman Mock Server](https://learning.postman.com/docs/designing-and-developing-your-api/mocking-data/overview/)**: A feature of Postman that allows you to create mock servers and simulate API responses.
 
 ## Contact
 
