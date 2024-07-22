@@ -37,6 +37,7 @@ class TransactionVM @Inject constructor(
     val transactionInfo: StateFlow<TransactionInfoState> = _transactionInfoState
 
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        //TODO: Here we can handle more kind of exceptions like, cancellation or declined returned from server
         throwable.printStackTrace()
         setTransactionResult(TransactionResult.FAILURE)
         gotoStep(TransactionScreenState.RESULT)
@@ -59,6 +60,7 @@ class TransactionVM @Inject constructor(
     }
 
     fun onAmountChanged(amount: String) {
+        //TODO: adding validation to amount so that user cannot go to next step without a valid amount
         viewModelScope.launch(Dispatchers.Default) {
             if (transactionValidator.isAmountValid(amount))
                 _transactionInfoState.emit(
@@ -109,6 +111,7 @@ class TransactionVM @Inject constructor(
     }
 
     fun gotoPreviousStep(): Boolean {
+        // TODO: adding this feature to allow user to go back in the transaction flow to make any changes if required.
         val currentScreenState = _screenState.value
         if (currentScreenState.stepNumber >= TransactionScreenState.PROCESSING.stepNumber) {
             return false

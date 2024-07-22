@@ -14,6 +14,7 @@ class LastTransactionVM @Inject constructor(
     getLastTransactionUseCase: GetLastTransactionUseCase
 ) : ViewModel() {
 
+    //TODO: making default state of the last transaction as null if there are no transactions available in db
     private val _uiState = MutableStateFlow<LastTransactionState?>(null)
     val uiState: StateFlow<LastTransactionState?> = _uiState
 

@@ -17,7 +17,7 @@ class TransactionRepositoryImpl @Inject constructor(
     TransactionRepository {
 
     override suspend fun createTransaction(transaction: TransactionInfo) : TransactionInfo {
-        // Here saving the transaction before sending it to server with failure status,
+        // TODO: Here saving the transaction before sending it to server with failure status,
         // in case user doesn't have any internet connection or any server error happens
         val transactionTime = System.currentTimeMillis()
         val transactionEntity = transaction.toEntity(transactionTime)

@@ -12,7 +12,7 @@ data class TransactionInfoState(
     var selectedType: TransactionUiType = TransactionUiType(
         TransactionType.PURCHASE,
         R.string.purchase
-    ),
+    ), //TODO: making purchase as default option as user can proceed to next step without selecting anything
     val allType: List<TransactionUiType>,
     var cardPan: String = "",
     var cvv: String = "",
