@@ -19,6 +19,7 @@ import com.example.simplepay.ui.screen.last_transaction.LastTransactionScreen
 import com.example.simplepay.ui.screen.last_transaction.LastTransactionVM
 import com.example.simplepay.ui.screen.transaction.TransactionVM
 import com.example.simplepay.ui.screen.transaction.screens.TransactionScreen
+import com.example.simplepay.ui.screen.transaction.states.TransactionScreenState
 
 
 @Composable
@@ -53,7 +54,7 @@ fun AppNavigation() {
                 viewStepsState = uiState,
                 onAmountChange = { viewModel.onAmountChanged(it) },
                 onTransactionTypeSelected = { viewModel.onTransactionTypeSelected(it) },
-                onTransactionInfoContinueClick = { viewModel.gotoNextStep() },
+                onTransactionInfoContinueClick = { viewModel.gotoStep(TransactionScreenState.CARD_INFO_INPUT) },
                 onCardInfoContinueClick = { viewModel.createTransaction() },
                 onResultOkClick = { navController.navigateClearingBackStack(HOME) },
                 onCardPanChange = { viewModel.onCardPanChanged(it) },

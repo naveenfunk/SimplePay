@@ -17,13 +17,15 @@ class TransactionRepositoryImpl @Inject constructor(
     TransactionRepository {
 
     override suspend fun createTransaction(transaction: TransactionInfo) : TransactionInfo {
+        // Here saving the transaction before sending it to server with failure status,
+        // in case user doesn't have any internet connection or any server error happens
         val transactionTime = System.currentTimeMillis()
         val transactionEntity = transaction.toEntity(transactionTime)
         val transactionDbId = localDataSource.saveTransaction(transactionEntity) // saving before server request
         val remoteResponse = remoteDataSource.createTransaction(transaction.toRemote(transactionTime))
         if (remoteResponse) {
             val updatedTransaction = transactionEntity.copy(id = transactionDbId, result = TransactionResult.APPROVED)
-            localDataSource.updateTransaction(updatedTransaction) // saving after server request
+            localDataSource.updateTransaction(updatedTransaction) // updating after server request
             return updatedTransaction.toDomain()
         }
         return transactionEntity.toDomain()

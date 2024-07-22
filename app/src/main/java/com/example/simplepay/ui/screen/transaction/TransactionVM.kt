@@ -39,12 +39,12 @@ class TransactionVM @Inject constructor(
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         throwable.printStackTrace()
         setTransactionResult(TransactionResult.FAILURE)
-        gotoNextStep()
+        gotoStep(TransactionScreenState.RESULT)
     }
 
     fun createTransaction() {
         viewModelScope.launch(Dispatchers.Default + exceptionHandler) {
-            gotoNextStep()
+            gotoStep(TransactionScreenState.PROCESSING)
             if (isCardInfoValid()) {
                 withContext(Dispatchers.IO) {
                     val transactionCreated =
@@ -54,7 +54,7 @@ class TransactionVM @Inject constructor(
             } else {
                 setTransactionResult(TransactionResult.FAILURE)
             }
-            gotoNextStep()
+            gotoStep(TransactionScreenState.RESULT)
         }
     }
 
@@ -100,15 +100,12 @@ class TransactionVM @Inject constructor(
             _transactionInfoState.value.copy(transactionResult = transactionResult)
     }
 
-    fun gotoNextStep() {
+    fun gotoStep(step: TransactionScreenState) {
         val currentScreenState = _screenState.value
         if (currentScreenState == TransactionScreenState.TRANSACTION_INPUT && !_transactionInfoState.value.isTransactionInfoValid) {
             return
         }
-        val nextStep = TransactionScreenState.fromInt(currentScreenState.stepNumber + 1)
-        nextStep?.let {
-            _screenState.value = it
-        }
+        _screenState.value = step
     }
 
     fun gotoPreviousStep(): Boolean {
