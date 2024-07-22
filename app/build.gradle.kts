@@ -1,5 +1,5 @@
 plugins {
-    id("kotlin-kapt")
+    kotlin("kapt")
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.dagger.hilt.android)
@@ -75,6 +75,10 @@ dependencies {
     implementation(libs.ktor.client.logging)
     //Serialization
     implementation(libs.serialization.json)
+    //room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

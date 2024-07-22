@@ -16,6 +16,7 @@ ktor = "2.3.11"
 serialization = "1.6.3"
 mockito_android = "5.11.0"
 mockito = "5.3.1"
+room = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,6 +46,9 @@ ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version
 serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization"}
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito"}
 mockito-android = { group = "org.mockito", name = "mockito-android", version.ref = "mockito_android"}
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
 
 
 [plugins]

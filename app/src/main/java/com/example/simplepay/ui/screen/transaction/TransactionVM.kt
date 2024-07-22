@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.simplepay.R
 import com.example.simplepay.domain.model.TransactionResult
 import com.example.simplepay.domain.model.TransactionType
+import com.example.simplepay.domain.usecase.CreateTransactionUseCase
 import com.example.simplepay.ui.screen.transaction.states.TransactionInfoState
 import com.example.simplepay.ui.screen.transaction.states.TransactionScreenState
 import com.example.simplepay.ui.screen.transaction.states.TransactionUiType
+import com.example.simplepay.ui.screen.transaction.states.toDomain
 import com.example.simplepay.ui.screen.transaction.validator.TransactionValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TransactionVM @Inject constructor(
-    private val transactionValidator: TransactionValidator
+    private val transactionValidator: TransactionValidator,
+    private val createTransactionUseCase: CreateTransactionUseCase
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow(TransactionScreenState.TRANSACTION_INPUT)
@@ -41,6 +44,7 @@ class TransactionVM @Inject constructor(
             } else {
                 setTransactionResult(TransactionResult.FAILURE)
             }
+            createTransactionUseCase(_transactionInfoState.value.toDomain())
             gotoNextStep()
         }
     }
@@ -64,7 +68,7 @@ class TransactionVM @Inject constructor(
 
     fun onCardPanChanged(pan: String) {
         _transactionInfoState.value =
-            _transactionInfoState.value.copy(cardNumber = pan)
+            _transactionInfoState.value.copy(cardPan = pan)
     }
 
     fun onCardMonthChanged(month: String) {
@@ -121,7 +125,7 @@ class TransactionVM @Inject constructor(
 
     private fun isCardInfoValid(): Boolean {
         val currentInfo = _transactionInfoState.value
-        return transactionValidator.isCardPanValid(currentInfo.cardNumber)
+        return transactionValidator.isCardPanValid(currentInfo.cardPan)
                 && transactionValidator.isCardExpiryMonthValid(currentInfo.cardExpiryMonth)
                 && transactionValidator.isCardExpiryYearValid(currentInfo.cardExpiryYear)
                 && transactionValidator.isCardSecurityCodeValid(currentInfo.cvv)

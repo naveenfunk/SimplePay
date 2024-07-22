@@ -30,7 +30,7 @@ fun TransactionScreen(
         )
 
         TransactionScreenState.CARD_INFO_INPUT -> CardInfoInputScreen(
-            cardPan = viewState.cardNumber,
+            cardPan = viewState.cardPan,
             cardExpiryMonth = viewState.cardExpiryMonth,
             cardExpiryYear = viewState.cardExpiryYear,
             cardSecurityCode = viewState.cvv,
