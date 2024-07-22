@@ -1,4 +1,4 @@
-package com.example.simplepay.ui.screen.transaction
+package com.example.simplepay.ui.screen.transaction.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -68,7 +68,6 @@ fun CardInfoInputScreen(onContinueClick: () -> Unit) {
 
         Button(
             onClick = {
-                // Log card information (for demonstration purposes only, do not log sensitive information in production)
                 onContinueClick()
             },
             modifier = Modifier

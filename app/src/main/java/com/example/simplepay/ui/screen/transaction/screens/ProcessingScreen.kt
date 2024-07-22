@@ -1,4 +1,4 @@
-package com.example.simplepay.ui.screen.transaction
+package com.example.simplepay.ui.screen.transaction.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text

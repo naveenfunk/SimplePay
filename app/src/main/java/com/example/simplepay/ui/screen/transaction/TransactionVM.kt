@@ -1,33 +1,84 @@
 package com.example.simplepay.ui.screen.transaction
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.simplepay.domain.TransactionFlow
-import com.example.simplepay.domain.model.TransactionViewEffect
+import androidx.lifecycle.viewModelScope
+import com.example.simplepay.R
+import com.example.simplepay.domain.model.TransactionType
+import com.example.simplepay.ui.screen.transaction.states.TransactionInfoState
+import com.example.simplepay.ui.screen.transaction.states.TransactionScreenState
+import com.example.simplepay.ui.screen.transaction.states.TransactionUiType
+import com.example.simplepay.ui.screen.transaction.validator.TransactionValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TransactionVM @Inject constructor(
-    private val transactionFlow: TransactionFlow
+    private val transactionValidator: TransactionValidator
 ) : ViewModel() {
 
-    private val _screenState = MutableLiveData<TransactionViewEffect>(TransactionViewEffect.Init)
-    val screenState: LiveData<TransactionViewEffect> = _screenState
+    private val _screenState = MutableStateFlow(TransactionScreenState.TRANSACTION_INPUT)
+    val screenState: StateFlow<TransactionScreenState> = _screenState
 
-    init {
-        CoroutineScope(Dispatchers.Main).launch {
-            transactionFlow.viewEffect.collect {
-                _screenState.value = it
-            }
-        }
+    private val _transactionInfoState: MutableStateFlow<TransactionInfoState> = MutableStateFlow(
+        TransactionInfoState(
+            allType = getTransactionTypes(),
+            allMonth = (1..12).toList(),
+            allYear = (2024..2034).toList()
+        )
+    )
+    val transactionInfo: StateFlow<TransactionInfoState> = _transactionInfoState
 
-        CoroutineScope(Dispatchers.Main).launch {
-            transactionFlow.run()
+    fun createTransaction() {
+
+    }
+
+    fun onAmountChanged(amount: String) {
+        viewModelScope.launch(Dispatchers.Default) {
+            if (transactionValidator.isAmountValid(amount))
+                _transactionInfoState.emit(
+                    _transactionInfoState.value.copy(
+                        amount = amount,
+                        isTransactionInfoValid = true
+                    )
+                )
         }
+    }
+
+    fun onTransactionTypeSelected(transactionUiType: TransactionUiType) {
+        _transactionInfoState.value =
+            _transactionInfoState.value.copy(selectedType = transactionUiType)
+    }
+
+    fun gotoNextStep() {
+        val currentScreenState = _screenState.value
+        if (currentScreenState == TransactionScreenState.TRANSACTION_INPUT && !_transactionInfoState.value.isTransactionInfoValid) {
+            return
+        }
+        val nextStep = TransactionScreenState.fromInt(currentScreenState.stepNumber + 1)
+        nextStep?.let {
+            _screenState.value = it
+        }
+    }
+
+    fun gotoPreviousStep() : Boolean {
+        val currentScreenState = _screenState.value
+        val previousStep = TransactionScreenState.fromInt(currentScreenState.stepNumber - 1)
+        previousStep?.let {
+            _screenState.value = it
+            return true
+        }
+        return false
+    }
+
+    private fun getTransactionTypes(): List<TransactionUiType> {
+        return listOf(
+            TransactionUiType(TransactionType.PURCHASE, R.string.purchase),
+            TransactionUiType(TransactionType.REFUND, R.string.refund),
+            TransactionUiType(TransactionType.CASHOUT, R.string.cashout)
+        )
     }
 }
