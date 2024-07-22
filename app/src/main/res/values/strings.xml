@@ -16,4 +16,8 @@
     <string name="transaction_type">Transaction Type</string>
     <string name="transaction_amount">Transaction Amount</string>
     <string name="none">None</string>
+    <string name="card_pan">Card PAN</string>
+    <string name="expiry_year">Expiry Year</string>
+    <string name="expiry_month">Expiry Month</string>
+    <string name="card_security_code">Card Security Code</string>
 </resources>

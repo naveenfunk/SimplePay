@@ -6,6 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -41,7 +43,7 @@ fun AppNavigation() {
             )
 
             BackHandler {
-                if (!viewModel.gotoPreviousStep()){
+                if (!viewModel.gotoPreviousStep()) {
                     navController.navigateUp()
                 }
             }
@@ -52,7 +54,11 @@ fun AppNavigation() {
                 onTransactionTypeSelected = { viewModel.onTransactionTypeSelected(it) },
                 onTransactionInfoContinueClick = { viewModel.gotoNextStep() },
                 onCardInfoContinueClick = { viewModel.createTransaction() },
-                onResultOkClick = { navController.navigate(HOME) }
+                onResultOkClick = { navController.navigateClearingBackStack(HOME) },
+                onCardPanChange = { viewModel.onCardPanChanged(it) },
+                onCardExpiryMonthChange = { viewModel.onCardMonthChanged(it) },
+                onCardExpiryYearChange = { viewModel.onCardYearChanged(it) },
+                onCardSecurityChange = { viewModel.onCardSecurityCodeChanged(it) },
             )
         }
         composable(LAST_TRANSACTION) {
@@ -62,6 +68,16 @@ fun AppNavigation() {
                 )
             })
         }
+    }
+}
+
+fun NavHostController.navigateClearingBackStack(route: String) {
+    navigate(route) {
+        popUpTo(graph.findStartDestination().id) {
+            saveState = false
+        }
+        launchSingleTop = true
+        restoreState = false
     }
 }
 

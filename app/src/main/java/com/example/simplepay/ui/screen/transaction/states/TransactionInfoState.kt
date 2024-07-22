@@ -13,10 +13,8 @@ data class TransactionInfoState(
     val allType: List<TransactionUiType>,
     var cardNumber: String = "",
     var cvv: String = "",
-    var selectedMonth: Int = -1,
-    val allMonth: List<Int>,
-    var selectedYear: Int = -1,
-    val allYear: List<Int>,
+    var cardExpiryMonth: String = "",
+    var cardExpiryYear: String = "",
     val transactionResult: TransactionResult = TransactionResult.FAILURE,
     val isTransactionInfoValid: Boolean = false
 )

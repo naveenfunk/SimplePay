@@ -13,6 +13,10 @@ fun TransactionScreen(
     onTransactionTypeSelected: (TransactionUiType) -> Unit,
     onTransactionInfoContinueClick: () -> Unit,
     onCardInfoContinueClick: () -> Unit,
+    onCardPanChange: (String) -> Unit,
+    onCardExpiryMonthChange: (String) -> Unit,
+    onCardExpiryYearChange: (String) -> Unit,
+    onCardSecurityChange: (String) -> Unit,
     onResultOkClick: () -> Unit,
 ) {
     when (viewStepsState) {
@@ -25,7 +29,18 @@ fun TransactionScreen(
             onContinueClick = onTransactionInfoContinueClick
         )
 
-        TransactionScreenState.CARD_INFO_INPUT -> CardInfoInputScreen(onContinueClick = onCardInfoContinueClick)
+        TransactionScreenState.CARD_INFO_INPUT -> CardInfoInputScreen(
+            cardPan = viewState.cardNumber,
+            cardExpiryMonth = viewState.cardExpiryMonth,
+            cardExpiryYear = viewState.cardExpiryYear,
+            cardSecurityCode = viewState.cvv,
+            onCardPanChange = onCardPanChange,
+            onCardExpiryMonthChange = onCardExpiryMonthChange,
+            onCardExpiryYearChange = onCardExpiryYearChange,
+            onCardSecurityCodeChange = onCardSecurityChange,
+            onContinueClick = onCardInfoContinueClick
+        )
+
         TransactionScreenState.PROCESSING -> ProcessingScreen()
         TransactionScreenState.RESULT -> TransactionResultScreen(
             viewState.transactionResult,

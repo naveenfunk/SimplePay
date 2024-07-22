@@ -1,23 +1,37 @@
 package com.example.simplepay.ui.screen.transaction.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.simplepay.R
 
 @Composable
-fun CardInfoInputScreen(onContinueClick: () -> Unit) {
-    var cardPan by remember { mutableStateOf("") }
-    var cardExpiryMonth by remember { mutableStateOf("") }
-    var cardExpiryYear by remember { mutableStateOf("") }
-    var cardSecurityCode by remember { mutableStateOf("") }
+fun CardInfoInputScreen(
+    cardPan: String,
+    onCardPanChange: (String) -> Unit,
+    cardExpiryMonth: String,
+    onCardExpiryMonthChange: (String) -> Unit,
+    cardExpiryYear: String,
+    onCardExpiryYearChange: (String) -> Unit,
+    cardSecurityCode: String,
+    onCardSecurityCodeChange: (String) -> Unit,
+    onContinueClick: () -> Unit
+) {
 
     Box(
         modifier = Modifier
@@ -30,8 +44,8 @@ fun CardInfoInputScreen(onContinueClick: () -> Unit) {
         ) {
             OutlinedTextField(
                 value = cardPan,
-                onValueChange = { cardPan = it },
-                label = { Text("Card PAN") },
+                onValueChange = { onCardPanChange(it) },
+                label = { Text(stringResource(id = R.string.card_pan)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -42,16 +56,16 @@ fun CardInfoInputScreen(onContinueClick: () -> Unit) {
             ) {
                 OutlinedTextField(
                     value = cardExpiryMonth,
-                    onValueChange = { cardExpiryMonth = it },
-                    label = { Text("Expiry Month") },
+                    onValueChange = { onCardExpiryMonthChange(it) },
+                    label = { Text(stringResource(id = R.string.expiry_month)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.weight(1f)
                 )
 
                 OutlinedTextField(
                     value = cardExpiryYear,
-                    onValueChange = { cardExpiryYear = it },
-                    label = { Text("Expiry Year") },
+                    onValueChange = { onCardExpiryYearChange(it) },
+                    label = { Text(stringResource(id = R.string.expiry_year)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.weight(1f)
                 )
@@ -59,8 +73,8 @@ fun CardInfoInputScreen(onContinueClick: () -> Unit) {
 
             OutlinedTextField(
                 value = cardSecurityCode,
-                onValueChange = { cardSecurityCode = it },
-                label = { Text("Card Security Code") },
+                onValueChange = { onCardSecurityCodeChange(it) },
+                label = { Text(stringResource(id = R.string.card_security_code)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -83,5 +97,15 @@ fun CardInfoInputScreen(onContinueClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun CardInfoInputScreenPreview() {
-    CardInfoInputScreen(onContinueClick = {})
+    CardInfoInputScreen(
+        cardPan = "",
+        onCardPanChange = {},
+        cardExpiryMonth = "",
+        onCardExpiryMonthChange = {},
+        cardExpiryYear = "",
+        onCardExpiryYearChange = {},
+        cardSecurityCode = "",
+        onCardSecurityCodeChange = {},
+        onContinueClick = {}
+    )
 }
