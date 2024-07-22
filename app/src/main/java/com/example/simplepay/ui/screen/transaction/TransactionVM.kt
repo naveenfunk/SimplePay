@@ -17,6 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,12 +40,13 @@ class TransactionVM @Inject constructor(
         viewModelScope.launch(Dispatchers.Default) {
             gotoNextStep()
             if (isCardInfoValid()) {
-                delay(2000)
                 setTransactionResult(TransactionResult.APPROVED)
             } else {
                 setTransactionResult(TransactionResult.FAILURE)
             }
-            createTransactionUseCase(_transactionInfoState.value.toDomain())
+            withContext(Dispatchers.IO) {
+                createTransactionUseCase(_transactionInfoState.value.toDomain())
+            }
             gotoNextStep()
         }
     }

@@ -16,6 +16,7 @@ import com.example.simplepay.AppRoute.LAST_TRANSACTION
 import com.example.simplepay.AppRoute.TRANSACTION
 import com.example.simplepay.ui.screen.home.HomeScreen
 import com.example.simplepay.ui.screen.last_transaction.LastTransactionScreen
+import com.example.simplepay.ui.screen.last_transaction.LastTransactionVM
 import com.example.simplepay.ui.screen.transaction.TransactionVM
 import com.example.simplepay.ui.screen.transaction.screens.TransactionScreen
 
@@ -62,11 +63,13 @@ fun AppNavigation() {
             )
         }
         composable(LAST_TRANSACTION) {
-            LastTransactionScreen(onHomeClick = {
-                navController.navigate(
-                    HOME
-                )
-            })
+            val viewModel = hiltViewModel<LastTransactionVM>()
+
+            val uiState by viewModel.uiState.collectAsStateWithLifecycle(
+                minActiveState = Lifecycle.State.STARTED
+            )
+
+            LastTransactionScreen(uiState, onHomeClick = { navController.navigateClearingBackStack(HOME) })
         }
     }
 }

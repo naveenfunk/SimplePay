@@ -20,4 +20,9 @@
     <string name="expiry_year">Expiry Year</string>
     <string name="expiry_month">Expiry Month</string>
     <string name="card_security_code">Card Security Code</string>
+    <string name="no_transaction_found_message">No transactions found!</string>
+    <string name="amount_s">Amount: %s</string>
+    <string name="transaction_type_s">Transaction Type: %s</string>
+    <string name="card_pan_s">Card Pan(ending with): %s</string>
+    <string name="transaction_result_s">Transaction result: %s</string>
 </resources>

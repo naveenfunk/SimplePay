@@ -10,4 +10,8 @@ class LocalDataSourceImpl @Inject constructor(private val transactionDao: Transa
     override suspend fun saveTransaction(transaction: TransactionEntity) {
         transactionDao.saveTransaction(transaction)
     }
+
+    override suspend fun getLastTransaction(): TransactionEntity? {
+        return transactionDao.getLastTransaction()
+    }
 }

@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.simplepay.data.local.model.TransactionEntity
 
-@Database(entities = [TransactionEntity::class], version = 1, exportSchema = true)
+@Database(entities = [TransactionEntity::class], version = 2, exportSchema = true)
 @TypeConverters(TransactionConverters::class)
 abstract class TransactionDatabase : RoomDatabase() {
 

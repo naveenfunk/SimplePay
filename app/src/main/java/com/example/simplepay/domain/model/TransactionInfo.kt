@@ -1,6 +1,5 @@
 package com.example.simplepay.domain.model
 
-import com.example.simplepay.data.local.model.TransactionEntity
 import java.math.BigDecimal
 
 data class TransactionInfo(
@@ -23,10 +22,3 @@ enum class TransactionResult {
     CANCELLED,
     FAILURE,
 }
-
-fun TransactionInfo.toEntity() = TransactionEntity(
-    amount = amount,
-    type = transactionType,
-    cardPan = cardInfo.cardPan.takeLast(6),
-    result = result
-)
