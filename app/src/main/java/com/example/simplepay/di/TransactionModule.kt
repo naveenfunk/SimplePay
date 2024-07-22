@@ -1,9 +1,11 @@
 package com.example.simplepay.di
 
-import com.example.simplepay.data.local.repository.TransactionRepository
-import com.example.simplepay.data.local.repository.TransactionRepositoryImpl
+import com.example.simplepay.data.repository.TransactionRepository
+import com.example.simplepay.data.repository.TransactionRepositoryImpl
 import com.example.simplepay.data.local.source.LocalDataSource
 import com.example.simplepay.data.local.source.LocalDataSourceImpl
+import com.example.simplepay.data.remote.source.RemoteDataSource
+import com.example.simplepay.data.remote.source.RemoteDataSourceImpl
 import com.example.simplepay.ui.screen.transaction.validator.TransactionValidator
 import com.example.simplepay.ui.screen.transaction.validator.TransactionValidatorImpl
 import dagger.Binds
@@ -23,5 +25,8 @@ abstract class TransactionModule {
 
     @Binds
     abstract fun provideTransactionLocalDataSource(localDataSourceImpl: LocalDataSourceImpl): LocalDataSource
+
+    @Binds
+    abstract fun provideTransactionRemoteDataSource(remoteDataSourceImpl: RemoteDataSourceImpl): RemoteDataSource
 
 }

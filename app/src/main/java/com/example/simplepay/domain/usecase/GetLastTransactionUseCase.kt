@@ -1,6 +1,6 @@
 package com.example.simplepay.domain.usecase
 
-import com.example.simplepay.data.local.repository.TransactionRepository
+import com.example.simplepay.data.repository.TransactionRepository
 import com.example.simplepay.domain.model.TransactionInfo
 import javax.inject.Inject
 

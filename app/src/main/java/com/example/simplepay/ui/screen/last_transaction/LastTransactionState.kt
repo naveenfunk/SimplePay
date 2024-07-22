@@ -10,7 +10,6 @@ data class LastTransactionState(
     val cardInfo: String = "",
     val transactionResId: Int = R.string.purchase,
     val resultResId: Int = R.string.failure,
-    val isLastTransactionAvailalbe: Boolean = false
 )
 
 fun TransactionInfo.toState() = LastTransactionState(

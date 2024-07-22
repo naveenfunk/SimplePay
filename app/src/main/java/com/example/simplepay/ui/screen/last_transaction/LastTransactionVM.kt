@@ -14,8 +14,8 @@ class LastTransactionVM @Inject constructor(
     getLastTransactionUseCase: GetLastTransactionUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(LastTransactionState())
-    val uiState: StateFlow<LastTransactionState> = _uiState
+    private val _uiState = MutableStateFlow<LastTransactionState?>(null)
+    val uiState: StateFlow<LastTransactionState?> = _uiState
 
     init {
         viewModelScope.launch {

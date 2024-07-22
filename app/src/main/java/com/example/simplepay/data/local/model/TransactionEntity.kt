@@ -11,7 +11,7 @@ import java.math.BigDecimal
 
 @Entity(tableName = "transactions")
 data class TransactionEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     @ColumnInfo(name = "amount") val amount: BigDecimal,
     @ColumnInfo(name = "type") val type: TransactionType,
     @ColumnInfo(name = "cardPan") val cardPan: String,

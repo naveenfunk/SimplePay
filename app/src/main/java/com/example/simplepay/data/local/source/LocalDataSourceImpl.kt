@@ -7,8 +7,12 @@ import javax.inject.Inject
 class LocalDataSourceImpl @Inject constructor(private val transactionDao: TransactionDao) :
     LocalDataSource {
 
-    override suspend fun saveTransaction(transaction: TransactionEntity) {
-        transactionDao.saveTransaction(transaction)
+    override suspend fun saveTransaction(transaction: TransactionEntity): Long {
+        return transactionDao.saveTransaction(transaction)
+    }
+
+    override suspend fun updateTransaction(transaction: TransactionEntity) {
+        transactionDao.updateTransaction(transaction)
     }
 
     override suspend fun getLastTransaction(): TransactionEntity? {

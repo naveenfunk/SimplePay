@@ -12,8 +12,8 @@ import com.example.simplepay.ui.screen.transaction.states.TransactionUiType
 import com.example.simplepay.ui.screen.transaction.states.toDomain
 import com.example.simplepay.ui.screen.transaction.validator.TransactionValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -36,16 +36,23 @@ class TransactionVM @Inject constructor(
     )
     val transactionInfo: StateFlow<TransactionInfoState> = _transactionInfoState
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        throwable.printStackTrace()
+        setTransactionResult(TransactionResult.FAILURE)
+        gotoNextStep()
+    }
+
     fun createTransaction() {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.Default + exceptionHandler) {
             gotoNextStep()
             if (isCardInfoValid()) {
-                setTransactionResult(TransactionResult.APPROVED)
+                withContext(Dispatchers.IO) {
+                    val transactionCreated =
+                        createTransactionUseCase(_transactionInfoState.value.toDomain())
+                    setTransactionResult(transactionCreated.result)
+                }
             } else {
                 setTransactionResult(TransactionResult.FAILURE)
-            }
-            withContext(Dispatchers.IO) {
-                createTransactionUseCase(_transactionInfoState.value.toDomain())
             }
             gotoNextStep()
         }
